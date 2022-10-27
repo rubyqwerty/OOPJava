@@ -1,12 +1,14 @@
 public class MineralLake extends Lake{
 
-    double salt_content;
+    private double salt_content;
 
+    //Рассчет массы
     @Override
     protected void calculate_the_weight() {
         this.weight = this.volume * 1000 * this.salt_content;
     }
 
+    //Конструктор с параметрами
     public MineralLake(String _name, int _depth, int _area, double _salt_content){
         super(_name, _depth, _area);
         this.salt_content = _salt_content;
@@ -14,16 +16,19 @@ public class MineralLake extends Lake{
         LakeBase.add(this);
     }
 
+    //Конструктор по умолчанию
     public MineralLake(){
         super();
         this.salt_content = 0;
     }
 
+    //Вывод информации об оере
     public void printInformation(){
         super.printInformation();
         System.out.printf("Содержание соли: %s;\n",this.salt_content);
     }
 
+    //Редактирование полей озера
     @Override
     protected void editing(){
         System.out.println("Выберете поле, которое вы хотите отредактировать:\n" +

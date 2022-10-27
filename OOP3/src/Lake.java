@@ -4,13 +4,14 @@ import java.util.Comparator;
 
 public abstract class Lake extends UserInterface{
 
-    public String name;
-    int depth;
-    int area;
-    int volume;
-    double weight;
-    public static ArrayList<Lake> LakeBase = new ArrayList<>();
+    protected String name;
+    protected int depth;
+    protected int area;
+    protected int volume;
+    protected double weight;
+    protected static ArrayList<Lake> LakeBase = new ArrayList<>();
 
+    //конструктор по умолчанию
     public Lake (){
         this.area = 0;
         this.depth = 0;
@@ -19,6 +20,7 @@ public abstract class Lake extends UserInterface{
         this.weight = 0;
     }
 
+    //конструктор с параметром
     public Lake(String _name, int _depth, int _area){
         this.name = _name;
         this.depth = _depth;
@@ -29,15 +31,22 @@ public abstract class Lake extends UserInterface{
     //Рассчет массы озера
     protected abstract void calculate_the_weight();
 
+    //Редактиварование полей - реализуется в дочерних классах
     protected abstract void editing();
 
+    //Вывод информации об о всех озерах
     public static void printbase(){
+        if (LakeBase.isEmpty()){
+            System.out.println("Список пуст!");
+            return;
+        }
         System.out.printf("-----------------------------Вывод информации о всех озерах-----------------------\n");
         for (int i = 0; i < LakeBase.size(); ++i)
           LakeBase.get(i).printInformation();
         System.out.printf("----------------------------------------------------------------------------------\n");
     }
 
+    //Вывод информации об одном озере
     public void printInformation(){
         System.out.printf("---------------Информация-----------------\n");
         System.out.printf("Имя озера: %s;\n",this.name);
@@ -47,7 +56,7 @@ public abstract class Lake extends UserInterface{
         System.out.printf("Масса озера: %s;\n",this.weight);
     }
 
-    //Рассчет объема
+    //Рассчет объема озера
     protected void calculate_the_volume(){
         this.volume = this.area * this.depth;
     }
@@ -95,6 +104,7 @@ public abstract class Lake extends UserInterface{
         return count;
     }
 
+    //Находит озеро по имени
     private static Lake search(String _name){
         for (int i = 0; i < LakeBase.size(); ++i)
             if (_name.equals(LakeBase.get(i).name))
@@ -102,6 +112,7 @@ public abstract class Lake extends UserInterface{
         return null;
     }
 
+    //Поиск озера и его редактиварование
     public static void redactions(String _name){
         Lake lake = search(_name);
         if (lake == null){

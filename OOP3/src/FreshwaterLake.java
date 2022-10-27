@@ -1,11 +1,14 @@
 public class FreshwaterLake extends Lake{
 
-    String sewage_lake;
+    private String sewage_lake;
+
+    //Рассчитать массу озера
     @Override
     protected void calculate_the_weight() {
         this.weight = this.volume * 1000;
     }
 
+    //Конструктор с параметрами
     public FreshwaterLake(String _name, int _depth, int _area, String _sewage_lake){
         super(_name, _depth, _area);
         calculate_the_weight();
@@ -13,16 +16,19 @@ public class FreshwaterLake extends Lake{
         LakeBase.add(this);
     }
 
+    //Вывод информации об озере (перегруженный)
     public void printInformation(){
         super.printInformation();
         System.out.printf("Тип стока: %s;\n",this.sewage_lake);
     }
 
+    //Конструктор по умолчанию
     public FreshwaterLake(){
         super();
         this.sewage_lake = "";
     }
 
+    //Редактирование полей
     @Override
     protected void editing(){
         System.out.println("Выберете поле, которое вы хотите отредактировать:\n" +
