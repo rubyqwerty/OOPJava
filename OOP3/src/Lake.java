@@ -25,6 +25,7 @@ public abstract class Lake extends UserInterface{
         this.name = _name;
         this.depth = _depth;
         this.area = _area;
+        LakeBase.add(this);
         calculate_the_volume();
     }
 
@@ -32,28 +33,28 @@ public abstract class Lake extends UserInterface{
     protected abstract void calculate_the_weight();
 
     //Редактиварование полей - реализуется в дочерних классах
-    protected abstract void editing();
+
 
     //Вывод информации об о всех озерах
-    public static void printbase(){
+    public static String gettbase(){
         if (LakeBase.isEmpty()){
-            System.out.println("Список пуст!");
-            return;
+           return "База пустая!";
         }
-        System.out.printf("-----------------------------Вывод информации о всех озерах-----------------------\n");
+        String base = "";
         for (int i = 0; i < LakeBase.size(); ++i)
-          LakeBase.get(i).printInformation();
-        System.out.printf("----------------------------------------------------------------------------------\n");
+          base += LakeBase.get(i).getInformation();
+      return base;
     }
 
     //Вывод информации об одном озере
-    public void printInformation(){
-        System.out.printf("---------------Информация-----------------\n");
-        System.out.printf("Имя озера: %s;\n",this.name);
-        System.out.printf("Глубина озера: %s;\n",this.depth);
-        System.out.printf("Площадь озера: %s;\n",this.area);
-        System.out.printf("Объем озера: %s;\n",this.volume);
-        System.out.printf("Масса озера: %s;\n",this.weight);
+    public String getInformation(){
+        return
+        "---------------Информация-----------------\n"+
+        "Имя озера: " + this.name + "\n" +
+        "Глубина озера: " + this.depth + "\n" +
+        "Площадь озера: " + this.area + "\n" +
+        "Объем озера: " + this.volume + "\n" +
+        "Масса озера: " + this.weight + "\n";
     }
 
     //Рассчет объема озера
@@ -113,14 +114,18 @@ public abstract class Lake extends UserInterface{
     }
 
     //Поиск озера и его редактиварование
-    public static void redactions(String _name){
+    public static String redactions(String _name){
         Lake lake = search(_name);
-        if (lake == null){
-            System.out.println("Нет озера с таким названием!");
-            return;
-        }
-       lake.editing();
+        if (lake == null) return "Не найдено такого озера!\n";
+
+        String[] changes = UserInterface.editingInterface();
+
+        if (!lake.editing(changes[0] , changes[1]))
+            return "У данного типа озера нет такого поля!\n";
+
+        return lake.getInformation();
     }
 
+    protected abstract boolean editing(String _pole, String _newValue);
 
 }
